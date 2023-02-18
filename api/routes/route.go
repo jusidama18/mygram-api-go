@@ -1,9 +1,14 @@
 package routes
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jusidama18/mygram-api-go/api/controllers"
 	"github.com/jusidama18/mygram-api-go/api/middlewares"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Router struct {
@@ -48,11 +53,14 @@ func (r *Router) Run() {
 	socialMediaRoutes := r.router.Group("/socialmedias").Use(r.middleware.Authorization)
 	socialMediaRoutes.POST("/", r.socialMedia.CreateSocialMedia)
 	socialMediaRoutes.GET("/", r.socialMedia.GetAllSocialMedia)
-	socialMediaRoutes.PUT("/:id", r.socialMedia.UpdateSocialMedia)
-	socialMediaRoutes.DELETE("/:id", r.socialMedia.DeleteSocialMedia)
 
 	// Check middleware
 	r.router.GET("/check", r.middleware.Authorization, r.user.Check)
+	r.router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	r.router.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	r.router.Run(fmt.Sprintf(":%s", port))
 }

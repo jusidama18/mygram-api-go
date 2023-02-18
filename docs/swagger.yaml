@@ -1,0 +1,693 @@
+basePath: /
+definitions:
+  models.Comment:
+    properties:
+      create_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  models.CommentGetAll:
+    properties:
+      create_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  models.CommentUpdate:
+    properties:
+      caption:
+        type: string
+      create_at:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.Photo:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.PhotoGet:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.PhotoUserGet'
+      user_id:
+        type: integer
+    type: object
+  models.PhotoUpdate:
+    properties:
+      caption:
+        type: string
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.PhotoUserGet:
+    properties:
+      email:
+        type: string
+      username:
+        type: string
+    type: object
+  models.SocialMedia:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      social_media_url:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.SocialMediaGet:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      social_media_url:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.SocialMediaUserGet'
+      user_id:
+        type: integer
+    type: object
+  models.SocialMediaUpdate:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      social_media_url:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.SocialMediaUserGet:
+    properties:
+      email:
+        type: string
+      username:
+        type: string
+    type: object
+  models.User:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  parameters.CreateComment:
+    properties:
+      message:
+        type: string
+      photo_id:
+        type: integer
+    required:
+    - message
+    - photo_id
+    type: object
+  parameters.CreatePhoto:
+    properties:
+      caption:
+        type: string
+      photo_url:
+        type: string
+      title:
+        type: string
+    required:
+    - photo_url
+    - title
+    type: object
+  parameters.SocialMediaCreate:
+    properties:
+      name:
+        type: string
+      social_media_url:
+        type: string
+    required:
+    - name
+    - social_media_url
+    type: object
+  parameters.SocialMediaUpdate:
+    properties:
+      name:
+        type: string
+      social_media_url:
+        type: string
+    type: object
+  parameters.UpdateComment:
+    properties:
+      message:
+        type: string
+    type: object
+  parameters.UpdatePhoto:
+    properties:
+      caption:
+        type: string
+      photo_url:
+        type: string
+      title:
+        type: string
+    type: object
+  parameters.UserLogin:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  parameters.UserRegister:
+    properties:
+      age:
+        minimum: 8
+        type: integer
+      email:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - age
+    - email
+    - password
+    - username
+    type: object
+  parameters.UserUpdate:
+    properties:
+      email:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - username
+    type: object
+  responses.Response:
+    properties:
+      data: {}
+      error: {}
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: hacktiv@swagger.io
+    name: API Support
+  description: This is a API webservice to manage mygram API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Mygram-API
+  version: "1.0"
+paths:
+  /comments:
+    get:
+      consumes:
+      - application/json
+      description: Get All Comment
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.CommentGetAll'
+                  type: array
+              type: object
+      summary: Get All Comment
+      tags:
+      - Comments
+    post:
+      consumes:
+      - application/json
+      description: Create Comment by Data Provided
+      parameters:
+      - description: Create Comment
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/parameters.CreateComment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Comment'
+              type: object
+      summary: Create Comment
+      tags:
+      - Comments
+  /comments/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Comment by Data Provided
+      parameters:
+      - description: Delete Comment
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Delete Comment
+      tags:
+      - Comments
+    put:
+      consumes:
+      - application/json
+      description: Update Comment by Data Provided
+      parameters:
+      - description: Update Comment
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/parameters.UpdateComment'
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.CommentUpdate'
+              type: object
+      summary: Update Comment
+      tags:
+      - Comments
+  /photos:
+    get:
+      consumes:
+      - application/json
+      description: Get All Photo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.PhotoGet'
+                  type: array
+              type: object
+      summary: Get All Photo
+      tags:
+      - Photos
+    post:
+      consumes:
+      - application/json
+      description: Create Photo by Data Provided
+      parameters:
+      - description: Create Photo
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/parameters.CreatePhoto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Photo'
+              type: object
+      summary: Create Photo
+      tags:
+      - Photos
+  /photos/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Photo by Data Provided
+      parameters:
+      - description: Delete Photo
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Delete Photo
+      tags:
+      - Photos
+    put:
+      consumes:
+      - application/json
+      description: Update Photo by Data Provided
+      parameters:
+      - description: Update Photo
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/parameters.UpdatePhoto'
+      - description: Photo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.PhotoUpdate'
+              type: object
+      summary: Update Photo
+      tags:
+      - Photos
+  /socialmedias:
+    get:
+      consumes:
+      - application/json
+      description: Get All SocialMedia
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.SocialMediaGet'
+                  type: array
+              type: object
+      summary: Get All SocialMedia
+      tags:
+      - SocialMedias
+    post:
+      consumes:
+      - application/json
+      description: Create SocialMedia by Data Provided
+      parameters:
+      - description: Create SocialMedia
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/parameters.SocialMediaCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.SocialMedia'
+              type: object
+      summary: Create SocialMedia
+      tags:
+      - SocialMedias
+  /socialmedias/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete SocialMedia by Data Provided
+      parameters:
+      - description: Delete SocialMedia
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Delete SocialMedia
+      tags:
+      - SocialMedias
+    put:
+      consumes:
+      - application/json
+      description: Update SocialMedia by Data Provided
+      parameters:
+      - description: Update SocialMedia
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/parameters.SocialMediaUpdate'
+      - description: SocialMedia ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.SocialMediaUpdate'
+              type: object
+      summary: Update SocialMedia
+      tags:
+      - SocialMedias
+  /users:
+    delete:
+      consumes:
+      - application/json
+      description: Delete User through the authentication process must be done with
+        the help of JsonWebToken.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Delete User
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Update User by Data Provided
+      parameters:
+      - description: Update User
+        in: body
+        name: mygram
+        required: true
+        schema:
+          $ref: '#/definitions/parameters.UserUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
+      summary: Update User
+      tags:
+      - Users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: Login User by Data Provided
+      parameters:
+      - description: Login User
+        in: body
+        name: mygram
+        required: true
+        schema:
+          $ref: '#/definitions/parameters.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
+      summary: Login User
+      tags:
+      - Users
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register New User by Data Provided
+      parameters:
+      - description: Register User
+        in: body
+        name: mygram
+        required: true
+        schema:
+          $ref: '#/definitions/parameters.UserRegister'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/responses.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
+      summary: Register New User
+      tags:
+      - Users
+swagger: "2.0"

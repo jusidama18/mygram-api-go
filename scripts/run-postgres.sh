@@ -12,7 +12,7 @@ fi
 
 
 docker run -it \
-	--name hacktiv8-todo \
+	--name hacktiv8-mygram \
 	--rm \
     -d \
 	-e POSTGRES_USER="root" \

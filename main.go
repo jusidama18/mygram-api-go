@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "github.com/jusidama18/mygram-api-go/docs"
 	"github.com/gin-gonic/gin"
 	"github.com/jusidama18/mygram-api-go/api/controllers"
 	"github.com/jusidama18/mygram-api-go/api/middlewares"
@@ -10,6 +11,17 @@ import (
 	"github.com/jusidama18/mygram-api-go/services"
 )
 
+
+// @title Mygram-API
+// @version 1.0
+// @description This is a API webservice to manage mygram API
+// @termsOfService http://swagger.io/terms/
+// @contact.name API Support
+// @contact.email hacktiv@swagger.io
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:8080
+// @BasePath /
 func main() {
 	db, err := config.ConnectPostgresGORM()
 	if err != nil {

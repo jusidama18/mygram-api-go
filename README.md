@@ -19,6 +19,7 @@
 | Endpoint   | POST /comments       | Juan Simon Damanik |
 | Endpoint   | DELETE /comments/:id | Juan Simon Damanik |
 | Endpoint   | PUT /comments/:id    | Juan Simon Damanik |
+| Endpoint   | Add Swagger    | Juan Simon Damanik |
 | Endpoint	 | POST /socialmedia/:id| Dion Fauzi 			   |
 | Endpoint	 | GET /socialmedia/ :id| Dion Fauzi			   |
 | Endpoint	 | DELETE /socialmedia 	| Dion Fauzi			   |

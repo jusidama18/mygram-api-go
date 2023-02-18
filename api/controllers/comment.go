@@ -20,6 +20,14 @@ func NewCommentController(svc *services.CommentService) *CommentController {
 	}
 }
 
+// @Summary Create Comment
+// @Description Create Comment by Data Provided
+// @Tags Comments
+// @Accept json
+// @Produce json
+// @Param data body parameters.CreateComment true "Create Comment"
+// @Success 200 {object} responses.Response{data=models.Comment}
+// @Router /comments [post]
 func (cm *CommentController) CreateComment(c *gin.Context) {
 	var req parameters.CreateComment
 
@@ -50,6 +58,13 @@ func (cm *CommentController) CreateComment(c *gin.Context) {
 	responses.SuccessWithData(c, http.StatusCreated, resComment, "comment successfully created")
 }
 
+// @Summary Get All Comment
+// @Description Get All Comment
+// @Tags Comments
+// @Accept json
+// @Produce json
+// @Success 200 {object} responses.Response{data=[]models.CommentGetAll}
+// @Router /comments [get]
 func (cm *CommentController) GetAllComment(c *gin.Context) {
 	resComment, err := cm.svc.GetAllComment()
 	if err != nil {
@@ -59,6 +74,15 @@ func (cm *CommentController) GetAllComment(c *gin.Context) {
 	responses.SuccessWithData(c, http.StatusOK, resComment, "successfully get all comments")
 }
 
+// @Summary Update Comment
+// @Description Update Comment by Data Provided
+// @Tags Comments
+// @Accept json
+// @Produce json
+// @Param data body parameters.UpdateComment true "Update Comment"
+// @Param id path int true "Comment ID"
+// @Success 200 {object} responses.Response{data=models.CommentUpdate}
+// @Router /comments/{id} [put]
 func (cm *CommentController) UpdateComment(c *gin.Context) {
 	var req parameters.UpdateComment
 
@@ -89,6 +113,14 @@ func (cm *CommentController) UpdateComment(c *gin.Context) {
 	responses.SuccessWithData(c, http.StatusAccepted, updatedComment, "comment updated successfully.")
 }
 
+// @Summary Delete Comment
+// @Description Delete Comment by Data Provided
+// @Tags Comments
+// @Accept json
+// @Produce json
+// @Param id path int true "Delete Comment"
+// @Success 200 {object} responses.Response{data=string}
+// @Router /comments/{id} [delete]
 func (cm *CommentController) DeleteComment(c *gin.Context) {
 	commentID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
