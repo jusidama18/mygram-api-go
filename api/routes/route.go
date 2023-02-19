@@ -2,7 +2,6 @@ package routes
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jusidama18/mygram-api-go/api/controllers"
@@ -31,7 +30,7 @@ func NewRouter(router *gin.Engine, user *controllers.UserController, photo *cont
 	}
 }
 
-func (r *Router) Run() {
+func (r *Router) Run(port string) {
 	userRoutes := r.router.Group("/users")
 	userRoutes.POST("/register", r.user.RegisterUser)
 	userRoutes.POST("/login", r.user.Login)
@@ -58,9 +57,5 @@ func (r *Router) Run() {
 	r.router.GET("/check", r.middleware.Authorization, r.user.Check)
 	r.router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
 	r.router.Run(fmt.Sprintf(":%s", port))
 }

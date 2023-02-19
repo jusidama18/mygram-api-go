@@ -1,16 +1,18 @@
 package main
 
 import (
-	_ "github.com/jusidama18/mygram-api-go/docs"
+	"fmt"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jusidama18/mygram-api-go/api/controllers"
 	"github.com/jusidama18/mygram-api-go/api/middlewares"
 	"github.com/jusidama18/mygram-api-go/api/routes"
 	"github.com/jusidama18/mygram-api-go/config"
+	docs "github.com/jusidama18/mygram-api-go/docs"
 	"github.com/jusidama18/mygram-api-go/repository/gorm"
 	"github.com/jusidama18/mygram-api-go/services"
 )
-
 
 // @title Mygram-API
 // @version 1.0
@@ -20,12 +22,21 @@ import (
 // @contact.email hacktiv@swagger.io
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8080
 // @BasePath /
 func main() {
 	db, err := config.ConnectPostgresGORM()
 	if err != nil {
 		panic(err)
+	}
+	base_url := os.Getenv("BASE_URL")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	if base_url != "" {
+		docs.SwaggerInfo.Host = base_url
+	} else {
+		docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%s", port)
 	}
 
 	userRepo := gorm.NewUserRepository(db)
@@ -48,5 +59,5 @@ func main() {
 
 	router := gin.Default()
 	app := routes.NewRouter(router, userController, photoController, commentController, socialMediaController, middleware)
-	app.Run()
+	app.Run(port)
 }
